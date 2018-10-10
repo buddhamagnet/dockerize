@@ -5,3 +5,8 @@ before_install:
   - docker build -f ./client/Dockerfile.dev -t buddhamagnet/client-tests ./client
 script:
   - docker run buddhamagnet/client-tests npm run test -- --coverage
+after_success:
+  - docker build -t buddhamagnet/multi-client ./client
+  - docker build -t buddhamagnet/multi-server ./server
+  - docker build -t buddhamagnet/multi-worker ./worker
+  - docker build -t buddhamagnet/multi-nginx ./nginx
