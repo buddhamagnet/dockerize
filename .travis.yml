@@ -11,3 +11,7 @@ after_success:
   - docker build -t buddhamagnet/multi-worker ./worker
   - docker build -t buddhamagnet/multi-nginx ./nginx
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --passwd-stdin
+  - docker push buddhamagnet/multi-client
+  - docker push buddhamagnet/multi-server
+  - docker push buddhamagnet/multi-worker
+  - docker push buddhamagnet/multi-nginx
