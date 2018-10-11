@@ -10,8 +10,20 @@ after_success:
   - docker build -t buddhamagnet/multi-server ./server
   - docker build -t buddhamagnet/multi-worker ./worker
   - docker build -t buddhamagnet/multi-nginx ./nginx
-  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --passwd-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push buddhamagnet/multi-client
   - docker push buddhamagnet/multi-server
   - docker push buddhamagnet/multi-worker
   - docker push buddhamagnet/multi-nginx
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-1"
+  app: "docker-multi"
+  env: "Dockermulti-env"
+  bucket_name: "elasticbeanstalk-us-east-1-771301212860"
+  bucket_path: "docker-multi"
+  on:
+    branch: master
+  access_key_id: "$AWS_ACCESS_KEY"    
+  secret_access_key:
+    secure: "$AWS_SECRET_KEY"
